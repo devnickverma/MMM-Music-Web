@@ -84,43 +84,13 @@ export function SongCard({ song, queue = [] }: SongCardProps) {
           )}
         </div>
 
-        <div className="p-4">
-          <h3 className="font-semibold truncate mb-1 group-hover:text-primary transition-colors">
+        <div className="p-3">
+          <h3 className="font-semibold text-sm truncate mb-0.5 group-hover:text-primary transition-colors">
             {song.title}
           </h3>
-          <p className="text-sm text-muted-foreground truncate mb-2">
+          <p className="text-xs text-muted-foreground truncate">
             {song.artist_name}
           </p>
-          
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-muted-foreground">
-              {Math.floor(song.duration / 60)}:{(song.duration % 60).toString().padStart(2, '0')}
-            </span>
-            <div className="flex gap-1">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
-                onClick={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                }}
-              >
-                <Heart className="h-4 w-4" />
-              </Button>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
-                onClick={(e) => {
-                  e.preventDefault()
-                  e.stopPropagation()
-                }}
-              >
-                <MoreVertical className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
         </div>
       </Card>
     </Link>
