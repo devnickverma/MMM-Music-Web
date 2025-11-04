@@ -1,6 +1,6 @@
 'use client'
 
-import { Home, Search, Library, ListMusic, Mic2, Music, Heart, Clock, Plus } from 'lucide-react'
+import { Home, Library, ListMusic, Plus, MessageCircle, BarChart3 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
@@ -9,16 +9,10 @@ import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 
 const mainLinks = [
-  { icon: Home, label: 'Home', href: '/' },
+  { icon: Home, label: 'Home', href: '/home' },
   { icon: Library, label: 'Your Library', href: '/library' },
-]
-
-const libraryLinks = [
-  { icon: ListMusic, label: 'Playlists', href: '/library/playlists' },
-  { icon: Mic2, label: 'Artists', href: '/library/artists' },
-  { icon: Music, label: 'Albums', href: '/library/albums' },
-  { icon: Heart, label: 'Liked Songs', href: '/library/liked' },
-  { icon: Clock, label: 'Recently Played', href: '/library/recent' },
+  { icon: MessageCircle, label: 'Messages', href: '/messages' },
+  { icon: BarChart3, label: 'Artist Dashboard', href: '/artist/dashboard' },
 ]
 
 // Mock playlists
@@ -56,35 +50,6 @@ export function Sidebar() {
             )
           })}
         </nav>
-
-        <Separator className="my-4" />
-
-        {/* Library Links */}
-        <div className="px-3">
-          <h3 className="mb-2 px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-            Library
-          </h3>
-          <nav className="space-y-1">
-            {libraryLinks.map((link) => {
-              const Icon = link.icon
-              const isActive = pathname === link.href
-              return (
-                <Link key={link.href} href={link.href}>
-                  <Button
-                    variant={isActive ? 'secondary' : 'ghost'}
-                    className={cn(
-                      'w-full justify-start gap-3',
-                      isActive && 'bg-secondary font-medium'
-                    )}
-                  >
-                    <Icon className="h-4 w-4" />
-                    {link.label}
-                  </Button>
-                </Link>
-              )
-            })}
-          </nav>
-        </div>
 
         <Separator className="my-4" />
 

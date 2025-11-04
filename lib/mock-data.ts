@@ -94,7 +94,7 @@ export const mockSongs: Song[] = [
     title: 'Forest Whispers',
     artist_name: 'Nature Sounds',
     audio_url: '/demo-music/song12.mp3',
-    cover_image_url: 'https://images.unsplash.com/photo-1476431995121-fc5d0da7a086?w=400&h=400&fit=crop',
+    cover_image_url: 'https://images.unsplash.com/photo-1511735111819-9a3f7709049c?w=400&h=400&fit=crop',
     duration: 289,
   },
 ]

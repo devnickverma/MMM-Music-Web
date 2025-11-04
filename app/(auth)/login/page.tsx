@@ -58,9 +58,9 @@ export default function LoginPage() {
 
     // FRONTEND DEMO: Remove this when backend is ready
     setTimeout(() => {
-      toast.success('Login demo - Backend not connected yet!')
+      toast.success('Welcome back!')
       setIsLoading(false)
-      router.push('/')
+      router.push('/home')
     }, 1000)
   }
 

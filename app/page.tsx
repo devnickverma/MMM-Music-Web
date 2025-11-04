@@ -1,109 +1,241 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { SongCard } from '@/components/song/SongCard'
-import { SongRow } from '@/components/song/SongRow'
-import { Play, TrendingUp, Sparkles, Music } from 'lucide-react'
+import { Card } from '@/components/ui/card'
+import { LandingHeader } from '@/components/layout/LandingHeader'
+import { Music, Users, Radio, MessageCircle, Heart, Sparkles, Play, TrendingUp, Globe } from 'lucide-react'
+import Link from 'next/link'
 import Image from 'next/image'
-import { featuredSong, newReleases, trendingSongs, recommendedSongs } from '@/lib/mock-data'
-import { usePlayerStore } from '@/lib/store/player-store'
 
-export default function Home() {
-  const { playSong } = usePlayerStore()
-
-  const handlePlayFeatured = () => {
-    playSong(featuredSong, newReleases)
-  }
-
+export default function LandingPage() {
   return (
-    <div className="space-y-8">
+    <div className="min-h-screen">
+      <LandingHeader />
       {/* Hero Section */}
-      <section className="relative h-[400px] overflow-hidden rounded-lg mx-6 mt-6">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-primary/40 z-10" />
-        {featuredSong.cover_image_url && (
-          <Image
-            src={featuredSong.cover_image_url}
-            alt={featuredSong.title}
-            fill
-            className="object-cover"
-            priority
-          />
-        )}
-        <div className="relative z-20 flex flex-col justify-end h-full p-8 text-white">
-          <div className="max-w-2xl">
-            <div className="flex items-center gap-2 mb-4">
-              <Sparkles className="h-5 w-5" />
-              <span className="text-sm font-semibold uppercase tracking-wider">
-                Featured Today
-              </span>
+      <section className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-primary/5">
+        <div className="container mx-auto px-6 py-20 lg:py-32">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-8">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
+                <Sparkles className="h-4 w-4 text-primary" />
+                <span className="text-sm font-medium">Discover Independent Music</span>
+              </div>
+              
+              <h1 className="text-5xl lg:text-7xl font-bold leading-tight">
+                Mind Your Own Music
+              </h1>
+              
+              <p className="text-xl text-muted-foreground">
+                Connect directly with indie artists, discover unique sounds, and experience music like never before. 
+                Message your favorite musicians and attend exclusive virtual concerts.
+              </p>
+              
+              <div className="flex flex-wrap gap-4">
+                <Link href="/signup">
+                  <Button size="lg" className="text-lg h-14 px-8">
+                    <Play className="h-5 w-5 mr-2" fill="currentColor" />
+                    Start Listening Free
+                  </Button>
+                </Link>
+                <Link href="/login">
+                  <Button size="lg" variant="outline" className="text-lg h-14 px-8">
+                    Log In
+                  </Button>
+                </Link>
+              </div>
+              
+              <div className="flex items-center gap-8 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <Users className="h-4 w-4" />
+                  <span>10K+ Artists</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Music className="h-4 w-4" />
+                  <span>50K+ Songs</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Radio className="h-4 w-4" />
+                  <span>Live Concerts</span>
+                </div>
+              </div>
             </div>
-            <h1 className="text-5xl font-bold mb-2">{featuredSong.title}</h1>
-            <p className="text-xl mb-6 text-white/90">{featuredSong.artist_name}</p>
-            <div className="flex gap-4">
-              <Button 
-                size="lg" 
-                className="gap-2"
-                onClick={handlePlayFeatured}
-              >
-                <Play className="h-5 w-5" fill="currentColor" />
-                Play Now
-              </Button>
-              <Button size="lg" variant="secondary" className="gap-2">
-                <Music className="h-5 w-5" />
-                View Album
-              </Button>
+            
+            <div className="relative">
+              <div className="grid grid-cols-2 gap-4">
+                <Card className="p-6 space-y-3 hover:shadow-lg transition-shadow">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Music className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="font-semibold text-lg">Stream Music</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Unlimited access to indie tracks
+                  </p>
+                </Card>
+                
+                <Card className="p-6 space-y-3 hover:shadow-lg transition-shadow mt-8">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <MessageCircle className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="font-semibold text-lg">Direct Messages</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Chat with your favorite artists
+                  </p>
+                </Card>
+                
+                <Card className="p-6 space-y-3 hover:shadow-lg transition-shadow">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Radio className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="font-semibold text-lg">Virtual Concerts</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Attend live performances online
+                  </p>
+                </Card>
+                
+                <Card className="p-6 space-y-3 hover:shadow-lg transition-shadow mt-8">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Heart className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="font-semibold text-lg">Support Artists</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Help indie musicians grow
+                  </p>
+                </Card>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* New Releases */}
-      <section className="px-6">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <h2 className="text-2xl font-bold">New Releases</h2>
-            <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
+      {/* Features Section */}
+      <section className="py-20 lg:py-32 bg-secondary/30">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl lg:text-5xl font-bold mb-4">Why Choose MMM?</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              We're not just another music platform. We're building a community where artists and fans connect directly.
+            </p>
           </div>
-          <Button variant="ghost">View All</Button>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-          {newReleases.map((song) => (
-            <SongCard key={song.id} song={song} queue={newReleases} />
-          ))}
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            <Card className="p-8 space-y-4 hover:shadow-xl transition-shadow">
+              <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
+                <Globe className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold">Discover Indie Artists</h3>
+              <p className="text-muted-foreground">
+                Find hidden gems from independent musicians around the world. Support emerging talent before they hit mainstream.
+              </p>
+            </Card>
+            
+            <Card className="p-8 space-y-4 hover:shadow-xl transition-shadow">
+              <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
+                <MessageCircle className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold">Direct Artist Connection</h3>
+              <p className="text-muted-foreground">
+                Message artists directly, get personalized recommendations, and build real relationships with the musicians you love.
+              </p>
+            </Card>
+            
+            <Card className="p-8 space-y-4 hover:shadow-xl transition-shadow">
+              <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
+                <Radio className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="text-2xl font-bold">Virtual Concert Hall</h3>
+              <p className="text-muted-foreground">
+                Attend exclusive live concerts from anywhere. Interactive experiences that bring artists and fans together.
+              </p>
+            </Card>
+          </div>
         </div>
       </section>
 
-      {/* Trending Now */}
-      <section className="px-6">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-2">
-            <TrendingUp className="h-6 w-6 text-primary" />
-            <h2 className="text-2xl font-bold">Trending Now</h2>
+      {/* How It Works Section */}
+      <section className="py-20 lg:py-32">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl lg:text-5xl font-bold mb-4">How It Works</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Get started in three simple steps
+            </p>
           </div>
-          <Button variant="ghost">View All</Button>
-        </div>
-        <div className="space-y-1">
-          {trendingSongs.map((song, index) => (
-            <SongRow key={song.id} song={song} queue={trendingSongs} index={index} />
-          ))}
+          
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="text-center space-y-4">
+              <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto border-4 border-primary/20">
+                <span className="text-3xl font-bold text-primary">1</span>
+              </div>
+              <h3 className="text-xl font-bold">Sign Up Free</h3>
+              <p className="text-muted-foreground">
+                Create your account in seconds. No credit card required.
+              </p>
+            </div>
+            
+            <div className="text-center space-y-4">
+              <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto border-4 border-primary/20">
+                <span className="text-3xl font-bold text-primary">2</span>
+              </div>
+              <h3 className="text-xl font-bold">Explore Music</h3>
+              <p className="text-muted-foreground">
+                Browse thousands of indie tracks and discover your new favorite artist.
+              </p>
+            </div>
+            
+            <div className="text-center space-y-4">
+              <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto border-4 border-primary/20">
+                <span className="text-3xl font-bold text-primary">3</span>
+              </div>
+              <h3 className="text-xl font-bold">Connect & Enjoy</h3>
+              <p className="text-muted-foreground">
+                Message artists, attend concerts, and be part of the community.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Recommended For You */}
-      <section className="px-6 pb-8">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h2 className="text-2xl font-bold">Recommended For You</h2>
-            <p className="text-sm text-muted-foreground">Based on your listening history</p>
+      {/* CTA Section */}
+      <section className="py-20 bg-gradient-to-br from-primary/90 to-primary text-white">
+        <div className="container mx-auto px-6 text-center">
+          <h2 className="text-4xl lg:text-5xl font-bold mb-6">
+            Ready to Discover New Music?
+          </h2>
+          <p className="text-xl mb-8 max-w-2xl mx-auto opacity-90">
+            Join thousands of music lovers supporting independent artists. Start your journey today.
+          </p>
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Link href="/signup">
+              <Button size="lg" variant="secondary" className="text-lg h-14 px-8">
+                <Play className="h-5 w-5 mr-2" fill="currentColor" />
+                Get Started Free
+              </Button>
+            </Link>
+            <Link href="/login">
+              <Button size="lg" variant="outline" className="text-lg h-14 px-8 bg-white/10 border-white hover:bg-white/20 text-white">
+                Sign In
+              </Button>
+            </Link>
           </div>
-          <Button variant="ghost">View All</Button>
-        </div>
-        <div className="space-y-1">
-          {recommendedSongs.map((song, index) => (
-            <SongRow key={song.id} song={song} queue={recommendedSongs} index={index} />
-          ))}
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="py-12 border-t">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="flex items-center gap-2">
+              <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-primary/60">
+                <span className="text-xl font-bold text-primary-foreground">MMM</span>
+              </div>
+              <span className="font-semibold">Mind Your Own Music</span>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              © 2025 MMM. Supporting independent artists worldwide.
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }

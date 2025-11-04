@@ -62,15 +62,13 @@ export function Header() {
             </Badge>
           </Button>
 
-          {/* Login Button */}
-          <Link href="/login">
-            <Button variant="ghost">Log In</Button>
-          </Link>
-
-          {/* Signup Button */}
-          <Link href="/signup">
-            <Button>Sign Up</Button>
-          </Link>
+          {/* User Menu */}
+          <Button variant="ghost" className="gap-2">
+            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+              <span className="text-sm font-semibold text-primary">U</span>
+            </div>
+            <span className="hidden md:block">User</span>
+          </Button>
         </div>
       </div>
     </header>

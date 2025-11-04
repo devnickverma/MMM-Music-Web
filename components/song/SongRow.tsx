@@ -11,9 +11,10 @@ interface SongRowProps {
   song: Song
   queue?: Song[]
   index?: number
+  showIndex?: boolean
 }
 
-export function SongRow({ song, queue = [], index }: SongRowProps) {
+export function SongRow({ song, queue = [], index, showIndex = false }: SongRowProps) {
   const { currentSong, isPlaying, playSong, pause, play } = usePlayerStore()
   
   const isCurrentSong = currentSong?.id === song.id

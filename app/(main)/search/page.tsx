@@ -36,31 +36,10 @@ export default function SearchPage() {
 
   return (
     <div className="p-6 space-y-6">
-      {/* Search Header */}
-      <div className="space-y-4">
-        <h1 className="text-3xl font-bold">Search</h1>
-        
-        {/* Search Input */}
-        <div className="relative max-w-2xl">
-          <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-          <Input
-            type="search"
-            placeholder="Search for songs, artists, albums..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 pr-10 h-12 text-base"
-          />
-          {searchQuery && (
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
-              onClick={() => setSearchQuery('')}
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          )}
-        </div>
+      {/* Page Title */}
+      <div>
+        <h1 className="text-3xl font-bold">Search Results</h1>
+        <p className="text-muted-foreground mt-1">Use the search bar above to find songs, artists, and albums</p>
       </div>
 
       {/* Filters */}
