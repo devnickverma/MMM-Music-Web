@@ -10,7 +10,6 @@ import { cn } from '@/lib/utils'
 
 const mainLinks = [
   { icon: Home, label: 'Home', href: '/' },
-  { icon: Search, label: 'Search', href: '/search' },
   { icon: Library, label: 'Your Library', href: '/library' },
 ]
 

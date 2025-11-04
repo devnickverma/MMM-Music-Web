@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -12,9 +13,17 @@ const genres = ['All', 'Pop', 'Rock', 'Hip-Hop', 'Electronic', 'Jazz', 'Classica
 const moods = ['All', 'Happy', 'Sad', 'Energetic', 'Chill', 'Romantic']
 
 export default function SearchPage() {
-  const [searchQuery, setSearchQuery] = useState('')
+  const searchParams = useSearchParams()
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '')
   const [selectedGenre, setSelectedGenre] = useState('All')
   const [selectedMood, setSelectedMood] = useState('All')
+
+  useEffect(() => {
+    const query = searchParams.get('q')
+    if (query) {
+      setSearchQuery(query)
+    }
+  }, [searchParams])
 
   // Filter songs based on search and filters
   const filteredSongs = mockSongs.filter(song => {
