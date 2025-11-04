@@ -30,7 +30,7 @@ export default function UploadSongPage() {
     setTimeout(() => {
       toast.success('Song uploaded successfully! (Demo mode)')
       setIsLoading(false)
-      router.push('/artist/dashboard')
+      router.push('/artist-dashboard')
     }, 2000)
   }
 

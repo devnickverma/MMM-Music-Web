@@ -12,7 +12,7 @@ const mainLinks = [
   { icon: Home, label: 'Home', href: '/home' },
   { icon: Library, label: 'Your Library', href: '/library' },
   { icon: MessageCircle, label: 'Messages', href: '/messages' },
-  { icon: BarChart3, label: 'Artist Dashboard', href: '/artist/dashboard' },
+  { icon: BarChart3, label: 'Artist Dashboard', href: '/artist-dashboard' },
 ]
 
 // Mock playlists

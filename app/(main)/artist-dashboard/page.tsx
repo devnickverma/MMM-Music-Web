@@ -33,7 +33,7 @@ export default function ArtistDashboard() {
           <h1 className="text-3xl font-bold">Artist Dashboard</h1>
           <p className="text-muted-foreground">Manage your music and track performance</p>
         </div>
-        <Link href="/artist/upload">
+        <Link href="/upload-song">
           <Button size="lg" className="gap-2">
             <Upload className="h-5 w-5" />
             Upload New Song
@@ -74,7 +74,7 @@ export default function ArtistDashboard() {
           <Card className="p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold">Your Music</h2>
-              <Link href="/artist/upload">
+              <Link href="/upload-song">
                 <Button variant="outline" className="gap-2">
                   <Upload className="h-4 w-4" />
                   Upload Song
