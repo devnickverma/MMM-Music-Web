@@ -5,13 +5,14 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Send, Search, MoreVertical, Music } from 'lucide-react'
+import { EmptyState } from '@/components/ui/EmptyState'
+import { Send, Search, MoreVertical, Music, MessageCircle } from 'lucide-react'
 
 export default function MessagesPage() {
   const [selectedChat, setSelectedChat] = useState('1')
   const [messageInput, setMessageInput] = useState('')
 
-  // Mock conversations
+  // Mock conversations - set to empty array to demonstrate empty state
   const conversations = [
     {
       id: '1',
@@ -41,6 +42,8 @@ export default function MessagesPage() {
       isArtist: true,
     },
   ]
+
+  // Toggle to show empty state: const conversations = []
 
   // Mock messages for selected chat
   const messages = [
@@ -107,7 +110,19 @@ export default function MessagesPage() {
 
         <ScrollArea className="flex-1">
           <div className="p-2">
-            {conversations.map((conversation) => (
+            {conversations.length === 0 ? (
+              <div className="flex items-center justify-center h-full py-12">
+                <div className="text-center">
+                  <div className="w-16 h-16 rounded-full bg-secondary/50 flex items-center justify-center mx-auto mb-4">
+                    <MessageCircle className="h-8 w-8 text-muted-foreground" />
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2">No messages yet</h3>
+                  <p className="text-sm text-muted-foreground mb-4">Start a conversation with your favorite artists</p>
+                  <Button onClick={() => console.log('Find artists clicked')}>Find Artists</Button>
+                </div>
+              </div>
+            ) : (
+              conversations.map((conversation) => (
               <button
                 key={conversation.id}
                 onClick={() => setSelectedChat(conversation.id)}
@@ -152,7 +167,8 @@ export default function MessagesPage() {
                   </div>
                 </div>
               </button>
-            ))}
+            ))
+            )}
           </div>
         </ScrollArea>
       </div>

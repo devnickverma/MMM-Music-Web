@@ -1,8 +1,10 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { SongCard } from '@/components/song/SongCard'
 import { SongRow } from '@/components/song/SongRow'
+import { SongCardSkeleton } from '@/components/ui/SongCardSkeleton'
 import { Play, TrendingUp, Sparkles, Music } from 'lucide-react'
 import Image from 'next/image'
 import { featuredSong, newReleases, trendingSongs, recommendedSongs } from '@/lib/mock-data'
@@ -10,6 +12,13 @@ import { usePlayerStore } from '@/lib/store/player-store'
 
 export default function Home() {
   const { playSong } = usePlayerStore()
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Simulate loading - remove this in production when using real API
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1500)
+    return () => clearTimeout(timer)
+  }, [])
 
   const handlePlayFeatured = () => {
     playSong(featuredSong, newReleases)
@@ -67,9 +76,15 @@ export default function Home() {
           <Button variant="ghost">View All</Button>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-          {newReleases.map((song) => (
-            <SongCard key={song.id} song={song} queue={newReleases} />
-          ))}
+          {isLoading ? (
+            Array.from({ length: 6 }).map((_, i) => (
+              <SongCardSkeleton key={i} />
+            ))
+          ) : (
+            newReleases.map((song) => (
+              <SongCard key={song.id} song={song} queue={newReleases} />
+            ))
+          )}
         </div>
       </section>
 

@@ -1,14 +1,17 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { SongCard } from '@/components/song/SongCard'
 import { SongRow } from '@/components/song/SongRow'
-import { Plus, ListMusic, Heart, Clock } from 'lucide-react'
+import { EmptyState } from '@/components/ui/EmptyState'
+import { PlaylistCardSkeleton } from '@/components/ui/PlaylistCardSkeleton'
+import { Plus, ListMusic, Heart, Clock, Music } from 'lucide-react'
 import { mockSongs } from '@/lib/mock-data'
 
-// Mock playlists
+// Mock playlists - set to empty array to demonstrate empty state
 const playlists = [
   { id: '1', name: 'Workout Mix', songCount: 32, coverUrl: mockSongs[0].cover_image_url },
   { id: '2', name: 'Chill Vibes', songCount: 45, coverUrl: mockSongs[1].cover_image_url },
@@ -16,7 +19,17 @@ const playlists = [
   { id: '4', name: 'Focus Flow', songCount: 67, coverUrl: mockSongs[3].cover_image_url },
 ]
 
+// Toggle to show empty state: const playlists = []
+
 export default function LibraryPage() {
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Simulate loading - remove this in production when using real API
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1000)
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
@@ -45,6 +58,23 @@ export default function LibraryPage() {
 
         {/* Playlists Tab */}
         <TabsContent value="playlists" className="space-y-4">
+          {isLoading ? (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <PlaylistCardSkeleton key={i} />
+              ))}
+            </div>
+          ) : playlists.length === 0 ? (
+            <EmptyState
+              icon={Music}
+              title="No playlists yet"
+              description="Create your first playlist to organize your music"
+              action={{
+                label: "Create Playlist",
+                onClick: () => console.log('Create playlist clicked')
+              }}
+            />
+          ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
             {playlists.map((playlist) => (
               <Card
@@ -85,6 +115,7 @@ export default function LibraryPage() {
               </div>
             </Card>
           </div>
+          )}
         </TabsContent>
 
         {/* Liked Songs Tab */}

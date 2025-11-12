@@ -1,14 +1,24 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { SongRow } from '@/components/song/SongRow'
+import { StatCardSkeleton } from '@/components/ui/StatCardSkeleton'
 import { Upload, TrendingUp, Users, Music, DollarSign, Calendar, Eye, Heart } from 'lucide-react'
 import { mockSongs } from '@/lib/mock-data'
 import Link from 'next/link'
 
 export default function ArtistDashboard() {
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Simulate loading - remove this in production when using real API
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1200)
+    return () => clearTimeout(timer)
+  }, [])
+
   // Mock data for artist
   const stats = [
     { label: 'Total Streams', value: '1.2M', icon: TrendingUp, change: '+12.5%', color: 'text-green-500' },
@@ -43,22 +53,28 @@ export default function ArtistDashboard() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {stats.map((stat) => (
-          <Card key={stat.label} className="p-6">
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">{stat.label}</p>
-                <h3 className="text-3xl font-bold mt-2">{stat.value}</h3>
-                <p className={`text-sm font-medium mt-1 ${stat.color}`}>
-                  {stat.change}
-                </p>
+        {isLoading ? (
+          Array.from({ length: 4 }).map((_, i) => (
+            <StatCardSkeleton key={i} />
+          ))
+        ) : (
+          stats.map((stat) => (
+            <Card key={stat.label} className="p-6">
+              <div className="flex items-start justify-between">
+                <div>
+                  <p className="text-sm text-muted-foreground">{stat.label}</p>
+                  <h3 className="text-3xl font-bold mt-2">{stat.value}</h3>
+                  <p className={`text-sm font-medium mt-1 ${stat.color}`}>
+                    {stat.change}
+                  </p>
+                </div>
+                <div className={`p-3 rounded-lg bg-primary/10`}>
+                  <stat.icon className="h-6 w-6 text-primary" />
+                </div>
               </div>
-              <div className={`p-3 rounded-lg bg-primary/10`}>
-                <stat.icon className="h-6 w-6 text-primary" />
-              </div>
-            </div>
-          </Card>
-        ))}
+            </Card>
+          ))
+        )}
       </div>
 
       {/* Content Tabs */}

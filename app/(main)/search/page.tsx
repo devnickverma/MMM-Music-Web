@@ -6,6 +6,8 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { SongCard } from '@/components/song/SongCard'
+import { SongCardSkeleton } from '@/components/ui/SongCardSkeleton'
+import { EmptyState } from '@/components/ui/EmptyState'
 import { Search as SearchIcon, X } from 'lucide-react'
 import { mockSongs } from '@/lib/mock-data'
 
@@ -17,11 +19,16 @@ export default function SearchPage() {
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '')
   const [selectedGenre, setSelectedGenre] = useState('All')
   const [selectedMood, setSelectedMood] = useState('All')
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const query = searchParams.get('q')
     if (query) {
       setSearchQuery(query)
+      // Simulate search loading
+      setIsLoading(true)
+      const timer = setTimeout(() => setIsLoading(false), 800)
+      return () => clearTimeout(timer)
     }
   }, [searchParams])
 
@@ -101,19 +108,31 @@ export default function SearchPage() {
               )}
             </div>
             
-            {filteredSongs.length > 0 ? (
+            {isLoading ? (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <SongCardSkeleton key={i} />
+                ))}
+              </div>
+            ) : filteredSongs.length > 0 ? (
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
                 {filteredSongs.map((song) => (
                   <SongCard key={song.id} song={song} queue={filteredSongs} />
                 ))}
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center py-12 text-center">
-                <p className="text-lg font-medium mb-2">No results found</p>
-                <p className="text-sm text-muted-foreground">
-                  Try searching for something else
-                </p>
-              </div>
+              <EmptyState
+                icon={SearchIcon}
+                title="No results found"
+                description="Try different keywords or filters"
+                action={{
+                  label: "Clear Filters",
+                  onClick: () => {
+                    setSelectedGenre('All')
+                    setSelectedMood('All')
+                  }
+                }}
+              />
             )}
           </>
         ) : (
