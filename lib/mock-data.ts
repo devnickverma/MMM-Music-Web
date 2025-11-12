@@ -103,3 +103,124 @@ export const featuredSong: Song = mockSongs[0]
 export const newReleases: Song[] = mockSongs.slice(0, 6)
 export const trendingSongs: Song[] = mockSongs.slice(3, 9)
 export const recommendedSongs: Song[] = mockSongs.slice(6, 12)
+
+// Mock Concerts Data
+export interface Concert {
+  id: string
+  title: string
+  artist_name: string
+  artist_id: string
+  artist_avatar: string
+  cover_image: string
+  date: string // ISO format
+  duration: number // in minutes
+  attendee_count: number
+  description: string
+  artist_bio: string
+  status: 'upcoming' | 'live' | 'past'
+  stream_url?: string
+}
+
+export const mockConcerts: Concert[] = [
+  {
+    id: '1',
+    title: 'Midnight Dreams Live Session',
+    artist_name: 'Luna Wave',
+    artist_id: '1',
+    artist_avatar: 'https://images.unsplash.com/photo-1614680376593-902f74cf0d41?w=100&h=100&fit=crop',
+    cover_image: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&h=400&fit=crop',
+    date: '2025-01-15T20:00:00Z',
+    duration: 60,
+    attendee_count: 234,
+    description: 'Join Luna Wave for an intimate acoustic session featuring songs from the new album "Midnight Dreams". Experience stripped-down versions of your favorite tracks and exclusive unreleased material.',
+    artist_bio: 'Luna Wave is an indie pop artist known for dreamy melodies and introspective lyrics. With over 1M monthly listeners, Luna has captivated audiences worldwide.',
+    status: 'upcoming',
+  },
+  {
+    id: '2',
+    title: 'Electric Night Tour',
+    artist_name: 'Neon Pulse',
+    artist_id: '2',
+    artist_avatar: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=100&h=100&fit=crop',
+    cover_image: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800&h=400&fit=crop',
+    date: '2025-01-20T19:00:00Z',
+    duration: 90,
+    attendee_count: 567,
+    description: 'Experience the high-energy virtual tour from Neon Pulse. This 90-minute spectacular features stunning visuals, live band, and interactive elements with the audience.',
+    artist_bio: 'Neon Pulse brings electronic dance music to life with electrifying performances. Known for innovative production and energetic stage presence.',
+    status: 'upcoming',
+  },
+  {
+    id: '3',
+    title: 'Acoustic Sunset Session',
+    artist_name: 'The Wanderers',
+    artist_id: '3',
+    artist_avatar: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=100&h=100&fit=crop',
+    cover_image: 'https://images.unsplash.com/photo-1501612780327-45045538702b?w=800&h=400&fit=crop',
+    date: '2025-02-01T18:00:00Z',
+    duration: 75,
+    attendee_count: 423,
+    description: 'The Wanderers invite you to a beautiful acoustic performance as the sun sets. Enjoy storytelling, sing-alongs, and a cozy atmosphere.',
+    artist_bio: 'The Wanderers are a folk-rock band that has toured globally. Their harmonies and storytelling have won hearts across continents.',
+    status: 'upcoming',
+  },
+  {
+    id: '4',
+    title: 'Urban Vibes Live',
+    artist_name: 'Urban Echo',
+    artist_id: '5',
+    artist_avatar: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=100&h=100&fit=crop',
+    cover_image: 'https://images.unsplash.com/photo-1506157786151-b8491531f063?w=800&h=400&fit=crop',
+    date: '2025-02-10T21:00:00Z',
+    duration: 60,
+    attendee_count: 891,
+    description: 'Urban Echo brings the city to your screen with hip-hop beats and smooth flows. Special guest appearances and freestyle sessions included.',
+    artist_bio: 'Urban Echo is a hip-hop collective pushing boundaries with innovative sounds and socially conscious lyrics.',
+    status: 'upcoming',
+  },
+  {
+    id: '5',
+    title: 'Holiday Special Concert',
+    artist_name: 'Cosmic Harmony',
+    artist_id: '8',
+    artist_avatar: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?w=100&h=100&fit=crop',
+    cover_image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&h=400&fit=crop',
+    date: '2024-12-20T20:00:00Z',
+    duration: 120,
+    attendee_count: 1245,
+    description: 'A magical evening of music celebrating the holidays with Cosmic Harmony. Features orchestral arrangements and special guest performers.',
+    artist_bio: 'Cosmic Harmony creates ethereal soundscapes that transport listeners to another dimension.',
+    status: 'past',
+  },
+  {
+    id: '6',
+    title: 'New Year Countdown Show',
+    artist_name: 'Retro Fusion',
+    artist_id: '11',
+    artist_avatar: 'https://images.unsplash.com/photo-1484755560615-a4c64e778a6c?w=100&h=100&fit=crop',
+    cover_image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&h=400&fit=crop',
+    date: '2024-12-31T23:00:00Z',
+    duration: 90,
+    attendee_count: 2134,
+    description: 'Ring in the new year with Retro Fusion! A high-energy performance featuring hits from the 80s and 90s with a modern twist.',
+    artist_bio: 'Retro Fusion blends classic sounds with contemporary production, creating nostalgic yet fresh music.',
+    status: 'past',
+  },
+  {
+    id: '7',
+    title: 'Summer Beach Vibes',
+    artist_name: 'Serene Sounds',
+    artist_id: '4',
+    artist_avatar: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=100&h=100&fit=crop',
+    cover_image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop',
+    date: '2024-11-15T17:00:00Z',
+    duration: 60,
+    attendee_count: 678,
+    description: 'Relive summer with Serene Sounds performing chill beach-inspired tracks. Perfect for relaxation and good vibes.',
+    artist_bio: 'Serene Sounds creates peaceful, ambient music perfect for meditation and relaxation.',
+    status: 'past',
+  },
+]
+
+export const upcomingConcerts = mockConcerts.filter(c => c.status === 'upcoming')
+export const pastConcerts = mockConcerts.filter(c => c.status === 'past')
