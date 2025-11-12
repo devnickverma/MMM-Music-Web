@@ -1,6 +1,6 @@
 'use client'
 
-import { Home, Library, ListMusic, Plus, MessageCircle, BarChart3 } from 'lucide-react'
+import { Home, Library, ListMusic, Plus, MessageCircle, BarChart3, Video } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils'
 const mainLinks = [
   { icon: Home, label: 'Home', href: '/home' },
   { icon: Library, label: 'Your Library', href: '/library' },
+  { icon: Video, label: 'Virtual Concerts', href: '/concerts' },
   { icon: MessageCircle, label: 'Messages', href: '/messages' },
   { icon: BarChart3, label: 'Artist Dashboard', href: '/artist-dashboard' },
 ]
