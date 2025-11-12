@@ -224,3 +224,66 @@ export const mockConcerts: Concert[] = [
 
 export const upcomingConcerts = mockConcerts.filter(c => c.status === 'upcoming')
 export const pastConcerts = mockConcerts.filter(c => c.status === 'past')
+
+// Mock User Profiles Data
+export interface UserProfile {
+  id: string
+  username: string
+  full_name: string
+  bio: string
+  avatar_url: string
+  cover_image_url: string
+  playlist_count: number
+  follower_count: number
+  following_count: number
+  is_verified: boolean
+}
+
+export const mockUsers: UserProfile[] = [
+  {
+    id: '1',
+    username: 'musiclover',
+    full_name: 'Alex Rivera',
+    bio: 'Music enthusiast | Playlist curator | Always discovering new sounds 🎵',
+    avatar_url: 'https://i.pravatar.cc/300?img=1',
+    cover_image_url: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1200&h=300&fit=crop',
+    playlist_count: 12,
+    follower_count: 2345,
+    following_count: 156,
+    is_verified: false,
+  },
+  {
+    id: '2',
+    username: 'vibesonly',
+    full_name: 'Sarah Chen',
+    bio: 'Creating the perfect mood for every moment | Electronic & Indie lover',
+    avatar_url: 'https://i.pravatar.cc/300?img=5',
+    cover_image_url: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=1200&h=300&fit=crop',
+    playlist_count: 8,
+    follower_count: 1567,
+    following_count: 89,
+    is_verified: true,
+  },
+  {
+    id: '3',
+    username: 'beatsandrhythm',
+    full_name: 'Marcus Johnson',
+    bio: 'Hip-hop head | DJ | Sharing my favorite tracks with the world 🎧',
+    avatar_url: 'https://i.pravatar.cc/300?img=12',
+    cover_image_url: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1200&h=300&fit=crop',
+    playlist_count: 25,
+    follower_count: 5432,
+    following_count: 234,
+    is_verified: true,
+  },
+]
+
+// Mock Following Artists
+export const mockFollowingArtists = [
+  { id: '1', name: 'Luna Wave', avatar: 'https://images.unsplash.com/photo-1614680376593-902f74cf0d41?w=150&h=150&fit=crop', followers: '1.2M' },
+  { id: '2', name: 'Neon Pulse', avatar: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=150&h=150&fit=crop', followers: '856K' },
+  { id: '3', name: 'The Wanderers', avatar: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=150&h=150&fit=crop', followers: '2.3M' },
+  { id: '4', name: 'Urban Echo', avatar: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=150&h=150&fit=crop', followers: '645K' },
+  { id: '5', name: 'Cosmic Harmony', avatar: 'https://images.unsplash.com/photo-1509114397022-ed747cca3f65?w=150&h=150&fit=crop', followers: '1.5M' },
+  { id: '6', name: 'Serene Sounds', avatar: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=150&h=150&fit=crop', followers: '432K' },
+]

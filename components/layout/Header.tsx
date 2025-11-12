@@ -63,12 +63,14 @@ export function Header() {
           </Button>
 
           {/* User Menu */}
-          <Button variant="ghost" className="gap-2">
-            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-              <span className="text-sm font-semibold text-primary">U</span>
-            </div>
-            <span className="hidden md:block">User</span>
-          </Button>
+          <Link href="/profile/musiclover">
+            <Button variant="ghost" className="gap-2">
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                <span className="text-sm font-semibold text-primary">U</span>
+              </div>
+              <span className="hidden md:block">User</span>
+            </Button>
+          </Link>
         </div>
       </div>
     </header>
