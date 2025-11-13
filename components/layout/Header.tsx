@@ -1,10 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { Search, Bell } from 'lucide-react'
+import { Search } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+import { NotificationDropdown } from './NotificationDropdown'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
@@ -52,15 +52,7 @@ export function Header() {
         {/* Right Section */}
         <div className="flex items-center gap-3 ml-auto">
           {/* Notifications */}
-          <Button variant="ghost" size="icon" className="relative">
-            <Bell className="h-5 w-5" />
-            <Badge 
-              className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-[10px]"
-              variant="destructive"
-            >
-              3
-            </Badge>
-          </Button>
+          <NotificationDropdown />
 
           {/* User Menu */}
           <Link href="/profile/musiclover">
