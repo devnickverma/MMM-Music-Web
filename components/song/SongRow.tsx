@@ -1,11 +1,13 @@
 'use client'
 
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { Play, Pause, Heart, MoreHorizontal } from 'lucide-react'
+import { Play, Pause, Heart, MoreHorizontal, ListPlus } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePlayerStore, type Song } from '@/lib/store/player-store'
 import { cn } from '@/lib/utils'
+import { AddToPlaylistModal } from '@/components/modals'
 
 interface SongRowProps {
   song: Song
@@ -16,6 +18,7 @@ interface SongRowProps {
 
 export function SongRow({ song, queue = [], index, showIndex = false }: SongRowProps) {
   const { currentSong, isPlaying, playSong, pause, play } = usePlayerStore()
+  const [addToPlaylistOpen, setAddToPlaylistOpen] = useState(false)
   
   const isCurrentSong = currentSong?.id === song.id
   const showPauseButton = isCurrentSong && isPlaying
@@ -122,15 +125,25 @@ export function SongRow({ song, queue = [], index, showIndex = false }: SongRowP
             variant="ghost" 
             size="icon"
             className="h-8 w-8"
+            title="Add to playlist"
             onClick={(e) => {
               e.preventDefault()
               e.stopPropagation()
+              setAddToPlaylistOpen(true)
             }}
           >
-            <MoreHorizontal className="h-4 w-4" />
+            <ListPlus className="h-4 w-4" />
           </Button>
         </div>
       </div>
+
+      {/* Add to Playlist Modal */}
+      <AddToPlaylistModal
+        open={addToPlaylistOpen}
+        onOpenChange={setAddToPlaylistOpen}
+        songId={song.id}
+        songTitle={song.title}
+      />
     </Link>
   )
 }

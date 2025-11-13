@@ -8,8 +8,9 @@ import { SongCard } from '@/components/song/SongCard'
 import { SongRow } from '@/components/song/SongRow'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { PlaylistCardSkeleton } from '@/components/ui/PlaylistCardSkeleton'
-import { Plus, ListMusic, Heart, Clock, Music } from 'lucide-react'
+import { Plus, ListMusic, Heart, Clock, Music, MoreVertical, Pencil } from 'lucide-react'
 import { mockSongs } from '@/lib/mock-data'
+import { CreatePlaylistModal, EditPlaylistModal } from '@/components/modals'
 
 // Mock playlists - set to empty array to demonstrate empty state
 const playlists = [
@@ -23,6 +24,9 @@ const playlists = [
 
 export default function LibraryPage() {
   const [isLoading, setIsLoading] = useState(true)
+  const [createModalOpen, setCreateModalOpen] = useState(false)
+  const [editModalOpen, setEditModalOpen] = useState(false)
+  const [selectedPlaylist, setSelectedPlaylist] = useState<any>(null)
 
   // Simulate loading - remove this in production when using real API
   useEffect(() => {
@@ -30,11 +34,22 @@ export default function LibraryPage() {
     return () => clearTimeout(timer)
   }, [])
 
+  const handleEditPlaylist = (playlist: any) => {
+    setSelectedPlaylist({
+      id: playlist.id,
+      name: playlist.name,
+      description: `A collection of ${playlist.songCount} amazing songs`,
+      cover_image_url: playlist.coverUrl,
+      is_public: true,
+    })
+    setEditModalOpen(true)
+  }
+
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">Your Library</h1>
-        <Button className="gap-2">
+        <Button className="gap-2" onClick={() => setCreateModalOpen(true)}>
           <Plus className="h-4 w-4" />
           Create Playlist
         </Button>
@@ -71,7 +86,7 @@ export default function LibraryPage() {
               description="Create your first playlist to organize your music"
               action={{
                 label: "Create Playlist",
-                onClick: () => console.log('Create playlist clicked')
+                onClick: () => setCreateModalOpen(true)
               }}
             />
           ) : (
@@ -92,6 +107,18 @@ export default function LibraryPage() {
                       <Play className="h-6 w-6" fill="currentColor" />
                     </Button>
                   </div>
+                  {/* Edit Button */}
+                  <Button
+                    size="icon-sm"
+                    variant="secondary"
+                    className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleEditPlaylist(playlist)
+                    }}
+                  >
+                    <Pencil className="h-4 w-4" />
+                  </Button>
                 </div>
                 <div className="p-3">
                   <h3 className="font-semibold text-sm truncate">
@@ -105,7 +132,10 @@ export default function LibraryPage() {
             ))}
             
             {/* Create New Playlist Card */}
-            <Card className="group cursor-pointer hover:shadow-lg transition-all border-dashed border-2 hover:border-primary">
+            <Card
+              className="group cursor-pointer hover:shadow-lg transition-all border-dashed border-2 hover:border-primary"
+              onClick={() => setCreateModalOpen(true)}
+            >
               <div className="aspect-square flex items-center justify-center bg-secondary/30">
                 <Plus className="h-12 w-12 text-muted-foreground group-hover:text-primary transition-colors" />
               </div>
@@ -144,6 +174,20 @@ export default function LibraryPage() {
           </div>
         </TabsContent>
       </Tabs>
+
+      {/* Modals */}
+      <CreatePlaylistModal
+        open={createModalOpen}
+        onOpenChange={setCreateModalOpen}
+      />
+
+      {selectedPlaylist && (
+        <EditPlaylistModal
+          open={editModalOpen}
+          onOpenChange={setEditModalOpen}
+          playlist={selectedPlaylist}
+        />
+      )}
     </div>
   )
 }
