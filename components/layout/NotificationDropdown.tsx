@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -86,8 +86,14 @@ const getNotificationIcon = (type: string) => {
 export function NotificationDropdown() {
   const [notifications, setNotifications] = useState(mockNotifications)
   const [open, setOpen] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
 
   const unreadCount = notifications.filter(n => !n.isRead).length
+
+  // Prevent hydration mismatch by only rendering Popover on client
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   const handleMarkAllAsRead = () => {
     setNotifications(notifications.map(n => ({ ...n, isRead: true })))
@@ -98,6 +104,23 @@ export function NotificationDropdown() {
     setNotifications(notifications.map(n => 
       n.id === id ? { ...n, isRead: true } : n
     ))
+  }
+
+  // Show a placeholder button during SSR to prevent hydration mismatch
+  if (!isMounted) {
+    return (
+      <Button variant="ghost" size="icon" className="relative">
+        <Bell className="h-5 w-5" />
+        {unreadCount > 0 && (
+          <Badge 
+            className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-[10px]"
+            variant="destructive"
+          >
+            {unreadCount}
+          </Badge>
+        )}
+      </Button>
+    )
   }
 
   return (

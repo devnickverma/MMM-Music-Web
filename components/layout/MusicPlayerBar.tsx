@@ -13,11 +13,13 @@ import {
   Repeat,
   Shuffle,
   ListMusic,
-  Heart
+  Heart,
+  List
 } from 'lucide-react'
 import Image from 'next/image'
 import { cn } from '@/lib/utils'
 import { useEffect, useState } from 'react'
+import { QueueDrawer } from '@/components/player/QueueDrawer'
 
 function formatTime(seconds: number): string {
   if (!seconds || isNaN(seconds)) return '0:00'
@@ -35,6 +37,7 @@ export function MusicPlayerBar() {
     duration,
     repeat,
     shuffle,
+    queue,
     togglePlayPause,
     next,
     previous,
@@ -46,6 +49,7 @@ export function MusicPlayerBar() {
 
   const [isMuted, setIsMuted] = useState(false)
   const [previousVolume, setPreviousVolume] = useState(volume)
+  const [queueOpen, setQueueOpen] = useState(false)
 
   const handleVolumeToggle = () => {
     if (isMuted) {
@@ -186,24 +190,45 @@ export function MusicPlayerBar() {
           </div>
         </div>
 
-        {/* Right: Volume Control */}
-        <div className="hidden lg:flex items-center gap-2 flex-1 justify-end">
-          <Button variant="ghost" size="icon" onClick={handleVolumeToggle}>
-            {isMuted || volume === 0 ? (
-              <VolumeX className="h-4 w-4" />
-            ) : (
-              <Volume2 className="h-4 w-4" />
+        {/* Right: Volume Control & Queue */}
+        <div className="flex items-center gap-2 flex-1 justify-end">
+          {/* Queue Button */}
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={() => setQueueOpen(true)}
+            className="relative"
+          >
+            <List className="h-4 w-4" />
+            {queue.length > 0 && (
+              <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-[10px] font-bold rounded-full h-4 w-4 flex items-center justify-center">
+                {queue.length}
+              </span>
             )}
           </Button>
-          <Slider
-            value={[isMuted ? 0 : volume]}
-            max={1}
-            step={0.01}
-            onValueChange={handleVolumeChange}
-            className="w-24"
-          />
+
+          {/* Volume Controls - Hidden on mobile */}
+          <div className="hidden lg:flex items-center gap-2">
+            <Button variant="ghost" size="icon" onClick={handleVolumeToggle}>
+              {isMuted || volume === 0 ? (
+                <VolumeX className="h-4 w-4" />
+              ) : (
+                <Volume2 className="h-4 w-4" />
+              )}
+            </Button>
+            <Slider
+              value={[isMuted ? 0 : volume]}
+              max={1}
+              step={0.01}
+              onValueChange={handleVolumeChange}
+              className="w-24"
+            />
+          </div>
         </div>
       </div>
+
+      {/* Queue Drawer */}
+      <QueueDrawer open={queueOpen} onOpenChange={setQueueOpen} />
     </div>
   )
 }
