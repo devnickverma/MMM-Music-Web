@@ -1,31 +1,52 @@
-'use client'
+"use client";
 
-import { Home, Library, ListMusic, Plus, MessageCircle, BarChart3, Video } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Separator } from '@/components/ui/separator'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { cn } from '@/lib/utils'
+import {
+  Home,
+  Library,
+  ListMusic,
+  Plus,
+  MessageCircle,
+  BarChart3,
+  Video,
+  Search,
+  Settings,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
+// Main navigation links (always visible)
 const mainLinks = [
-  { icon: Home, label: 'Home', href: '/home' },
-  { icon: Library, label: 'Your Library', href: '/library' },
-  { icon: Video, label: 'Virtual Concerts', href: '/concerts' },
-  { icon: MessageCircle, label: 'Messages', href: '/messages' },
-  { icon: BarChart3, label: 'Artist Dashboard', href: '/artist-dashboard' },
-]
+  { icon: Home, label: "Home", href: "/home" },
+  { icon: Search, label: "Search", href: "/search" },
+  { icon: Library, label: "Your Library", href: "/library" },
+  { icon: Video, label: "Virtual Concerts", href: "/concerts" },
+  { icon: MessageCircle, label: "Messages", href: "/messages" },
+];
+
+// Artist-only navigation links
+const artistLinks = [
+  { icon: BarChart3, label: "Artist Dashboard", href: "/artist-dashboard" },
+];
 
 // Mock playlists
 const playlists = [
-  { id: '1', name: 'Chill Vibes', songCount: 45 },
-  { id: '2', name: 'Workout Mix', songCount: 32 },
-  { id: '3', name: 'Road Trip', songCount: 28 },
-  { id: '4', name: 'Focus Flow', songCount: 67 },
-]
+  { id: "1", name: "Chill Vibes", songCount: 45 },
+  { id: "2", name: "Workout Mix", songCount: 32 },
+  { id: "3", name: "Road Trip", songCount: 28 },
+  { id: "4", name: "Focus Flow", songCount: 67 },
+];
 
 export function Sidebar() {
-  const pathname = usePathname()
+  const pathname = usePathname();
+
+  // TODO: Replace with actual user data from auth context/session
+  const mockUser = {
+    isArtist: true, // TODO: Get from user.role === 'artist' or user.is_artist
+  };
 
   return (
     <aside className="hidden md:flex flex-col w-64 border-r border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -33,24 +54,56 @@ export function Sidebar() {
         {/* Main Navigation */}
         <nav className="space-y-1 px-3">
           {mainLinks.map((link) => {
-            const Icon = link.icon
-            const isActive = pathname === link.href
+            const Icon = link.icon;
+            const isActive = pathname === link.href;
             return (
               <Link key={link.href} href={link.href}>
                 <Button
-                  variant={isActive ? 'secondary' : 'ghost'}
+                  variant={isActive ? "secondary" : "ghost"}
                   className={cn(
-                    'w-full justify-start gap-3',
-                    isActive && 'bg-secondary font-medium'
+                    "w-full justify-start gap-3",
+                    isActive && "bg-secondary font-medium"
                   )}
                 >
                   <Icon className="h-5 w-5" />
                   {link.label}
                 </Button>
               </Link>
-            )
+            );
           })}
         </nav>
+
+        {/* Artist-Only Section */}
+        {mockUser.isArtist && (
+          <>
+            <Separator className="my-4" />
+            <div className="px-3">
+              <h3 className="mb-2 px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                Artist Tools
+              </h3>
+              <nav className="space-y-1">
+                {artistLinks.map((link) => {
+                  const Icon = link.icon;
+                  const isActive = pathname === link.href;
+                  return (
+                    <Link key={link.href} href={link.href}>
+                      <Button
+                        variant={isActive ? "secondary" : "ghost"}
+                        className={cn(
+                          "w-full justify-start gap-3",
+                          isActive && "bg-secondary font-medium"
+                        )}
+                      >
+                        <Icon className="h-5 w-5" />
+                        {link.label}
+                      </Button>
+                    </Link>
+                  );
+                })}
+              </nav>
+            </div>
+          </>
+        )}
 
         <Separator className="my-4" />
 
@@ -90,12 +143,18 @@ export function Sidebar() {
       </ScrollArea>
 
       {/* Bottom Section */}
-      <div className="p-4 border-t border-border/40">
+      <div className="p-4 border-t border-border/40 space-y-2">
+        <Link href="/settings" className="block">
+          <Button className="w-full" variant="outline">
+            <Settings className="h-4 w-4 mr-2" />
+            Settings
+          </Button>
+        </Link>
         <Button className="w-full" variant="default">
           <Plus className="h-4 w-4 mr-2" />
           Create Playlist
         </Button>
       </div>
     </aside>
-  )
+  );
 }

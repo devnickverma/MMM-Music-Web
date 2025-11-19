@@ -46,7 +46,23 @@ export default function LoginPage() {
 
       if (data.user) {
         toast.success('Welcome back!')
-        router.push('/')
+        
+        // TODO: Check if user has completed onboarding
+        // Fetch user profile to check onboarding status
+        // const { data: profile } = await supabase
+        //   .from('profiles')
+        //   .select('has_completed_onboarding')
+        //   .eq('id', data.user.id)
+        //   .single()
+        
+        // if (!profile?.has_completed_onboarding) {
+        //   router.push('/onboarding')
+        // } else {
+        //   router.push('/home')
+        // }
+        
+        // Current: redirect to home (update when backend ready)
+        router.push('/home')
         router.refresh()
       }
     } catch (error) {
@@ -60,6 +76,16 @@ export default function LoginPage() {
     setTimeout(() => {
       toast.success('Welcome back!')
       setIsLoading(false)
+      
+      // TODO: When backend is ready, check if user has completed onboarding
+      // Example logic:
+      // if (!user.has_completed_onboarding) {
+      //   router.push('/onboarding')
+      // } else {
+      //   router.push('/home')
+      // }
+      
+      // Current demo: always redirect to home (temporary)
       router.push('/home')
     }, 1000)
   }

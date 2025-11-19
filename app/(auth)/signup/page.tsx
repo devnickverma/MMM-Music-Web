@@ -64,6 +64,7 @@ export default function SignupPage() {
             username,
             full_name: fullName,
             is_artist: isArtist,
+            has_completed_onboarding: false, // Track onboarding status
           })
 
         if (profileError) {
@@ -72,7 +73,13 @@ export default function SignupPage() {
         }
 
         toast.success('Account created! Please check your email to verify.')
-        router.push('/login')
+        
+        // TODO: Redirect to onboarding for new users
+        // New users should complete onboarding flow
+        router.push('/onboarding')
+        
+        // Alternative: If email verification is required first:
+        // router.push('/login') // -> then after login, check onboarding status
       }
     } catch (error) {
       toast.error('An error occurred. Please try again.')
@@ -85,6 +92,12 @@ export default function SignupPage() {
     setTimeout(() => {
       toast.success('Signup demo - Account created (frontend only)!')
       setIsLoading(false)
+      
+      // TODO: When backend is ready, redirect to onboarding for first-time users
+      // After successful signup, new users should go through onboarding
+      // router.push('/onboarding')
+      
+      // Current demo: redirect to login (temporary)
       router.push('/login')
     }, 1000)
   }

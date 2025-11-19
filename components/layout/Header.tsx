@@ -1,16 +1,34 @@
 'use client'
 
 import { useState } from 'react'
-import { Search } from 'lucide-react'
+import { Search, Settings, User, BarChart3, LogOut, ChevronDown } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { NotificationDropdown } from './NotificationDropdown'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 export function Header() {
   const router = useRouter()
   const [searchQuery, setSearchQuery] = useState('')
+
+  // TODO: Replace with actual user data from auth context/session
+  const mockUser = {
+    username: 'musiclover',
+    fullName: 'Music Lover',
+    email: 'music@example.com',
+    avatar: 'https://i.pravatar.cc/150?u=musiclover',
+    isArtist: false, // TODO: Get from user.role === 'artist'
+  }
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -54,15 +72,71 @@ export function Header() {
           {/* Notifications */}
           <NotificationDropdown />
 
-          {/* User Menu */}
-          <Link href="/profile/musiclover">
-            <Button variant="ghost" className="gap-2">
-              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                <span className="text-sm font-semibold text-primary">U</span>
-              </div>
-              <span className="hidden md:block">User</span>
-            </Button>
-          </Link>
+          {/* User Profile Dropdown */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button 
+                variant="ghost" 
+                className="gap-2 px-2"
+                aria-label="User menu"
+              >
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src={mockUser.avatar} alt={mockUser.username} />
+                  <AvatarFallback className="bg-primary/10 text-primary font-semibold">
+                    {mockUser.fullName.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
+                <span className="hidden md:block text-sm font-medium">
+                  {mockUser.fullName}
+                </span>
+                <ChevronDown className="h-4 w-4 text-muted-foreground" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuLabel>
+                <div className="flex flex-col space-y-1">
+                  <p className="text-sm font-medium leading-none">{mockUser.fullName}</p>
+                  <p className="text-xs leading-none text-muted-foreground">
+                    @{mockUser.username}
+                  </p>
+                </div>
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link href={`/profile/${mockUser.username}`} className="cursor-pointer">
+                  <User className="mr-2 h-4 w-4" />
+                  <span>View Profile</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/settings" className="cursor-pointer">
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Settings</span>
+                </Link>
+              </DropdownMenuItem>
+              {/* Conditional Artist Dashboard Link */}
+              {mockUser.isArtist && (
+                <DropdownMenuItem asChild>
+                  <Link href="/artist-dashboard" className="cursor-pointer">
+                    <BarChart3 className="mr-2 h-4 w-4" />
+                    <span>Artist Dashboard</span>
+                  </Link>
+                </DropdownMenuItem>
+              )}
+              <DropdownMenuSeparator />
+              <DropdownMenuItem 
+                className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50"
+                onClick={() => {
+                  // TODO: Implement actual logout with Better-Auth
+                  // Example: await signOut({ callbackUrl: '/login' })
+                  router.push('/login')
+                }}
+              >
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Log Out</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </header>
