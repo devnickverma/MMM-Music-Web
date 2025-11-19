@@ -15,14 +15,9 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Switch } from "@/components/ui/switch"
 import { cn } from "@/lib/utils"
-
-interface Playlist {
-  id: string
-  name: string
-  description?: string
-  cover_image_url?: string
-  is_public: boolean
-}
+import { mockPlaylists } from "@/lib/mock-data"
+import type { Playlist } from "@/lib/mock-data"
+import toast from "react-hot-toast"
 
 interface EditPlaylistModalProps {
   open: boolean
@@ -73,22 +68,36 @@ export function EditPlaylistModal({ open, onOpenChange, playlist }: EditPlaylist
   }
 
   const handleSave = () => {
-    // Handle playlist update
-    console.log("Updating playlist:", { 
-      id: playlist.id, 
-      playlistName, 
-      description, 
-      isPublic, 
-      coverImage 
-    })
+    const targetPlaylist = mockPlaylists.find(p => p.id === playlist.id)
+    
+    if (!targetPlaylist) {
+      toast.error("Playlist not found")
+      return
+    }
+
+    // Update properties
+    targetPlaylist.name = playlistName
+    targetPlaylist.description = description
+    targetPlaylist.is_public = isPublic
+    
+    if (coverImage) {
+      targetPlaylist.cover_image_url = URL.createObjectURL(coverImage)
+    }
+
+    toast.success("Playlist updated successfully")
     onOpenChange(false)
   }
 
   const handleDelete = () => {
-    // Handle playlist deletion
     if (confirm("Are you sure you want to delete this playlist? This action cannot be undone.")) {
-      console.log("Deleting playlist:", playlist.id)
-      onOpenChange(false)
+      const index = mockPlaylists.findIndex(p => p.id === playlist.id)
+      if (index !== -1) {
+        mockPlaylists.splice(index, 1)
+        toast.success("Playlist deleted")
+        onOpenChange(false)
+      } else {
+        toast.error("Playlist not found")
+      }
     }
   }
 

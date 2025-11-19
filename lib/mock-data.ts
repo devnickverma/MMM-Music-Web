@@ -104,6 +104,51 @@ export const newReleases: Song[] = mockSongs.slice(0, 6)
 export const trendingSongs: Song[] = mockSongs.slice(3, 9)
 export const recommendedSongs: Song[] = mockSongs.slice(6, 12)
 
+// Mock Playlists Data
+export interface Playlist {
+  id: string
+  name: string
+  description: string
+  cover_image_url: string
+  user_id: string
+  is_public: boolean
+  songs: Song[]
+  created_at: string
+}
+
+export const mockPlaylists: Playlist[] = [
+  {
+    id: '1',
+    name: 'Chill Vibes',
+    description: 'Perfect for relaxing and studying',
+    cover_image_url: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&h=400&fit=crop',
+    user_id: '1',
+    is_public: true,
+    songs: [mockSongs[0], mockSongs[3], mockSongs[5]],
+    created_at: '2024-01-01T00:00:00Z'
+  },
+  {
+    id: '2',
+    name: 'Workout Mix',
+    description: 'High energy tracks for the gym',
+    cover_image_url: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=400&fit=crop',
+    user_id: '1',
+    is_public: true,
+    songs: [mockSongs[1], mockSongs[8], mockSongs[10]],
+    created_at: '2024-01-02T00:00:00Z'
+  },
+  {
+    id: '3',
+    name: 'Late Night Drive',
+    description: 'Synthwave and electronic beats',
+    cover_image_url: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&h=400&fit=crop',
+    user_id: '1',
+    is_public: false,
+    songs: [mockSongs[2], mockSongs[4], mockSongs[7]],
+    created_at: '2024-01-03T00:00:00Z'
+  }
+]
+
 // Mock Concerts Data
 export interface Concert {
   id: string

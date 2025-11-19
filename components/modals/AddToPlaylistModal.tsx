@@ -15,14 +15,8 @@ import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { cn } from "@/lib/utils"
-
-interface Playlist {
-  id: string
-  name: string
-  song_count: number
-  cover_image_url?: string
-  containsSong?: boolean
-}
+import { mockPlaylists, mockSongs } from "@/lib/mock-data"
+import toast from "react-hot-toast"
 
 interface AddToPlaylistModalProps {
   open: boolean
@@ -32,52 +26,6 @@ interface AddToPlaylistModalProps {
   onCreateNew?: () => void
 }
 
-// Mock playlists data
-const mockPlaylists: Playlist[] = [
-  {
-    id: '1',
-    name: 'My Favorites',
-    song_count: 24,
-    cover_image_url: 'https://images.unsplash.com/photo-1614680376593-902f74cf0d41?w=100&h=100&fit=crop',
-    containsSong: true,
-  },
-  {
-    id: '2',
-    name: 'Chill Vibes',
-    song_count: 18,
-    cover_image_url: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=100&h=100&fit=crop',
-    containsSong: false,
-  },
-  {
-    id: '3',
-    name: 'Workout Mix',
-    song_count: 32,
-    cover_image_url: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=100&h=100&fit=crop',
-    containsSong: false,
-  },
-  {
-    id: '4',
-    name: 'Road Trip',
-    song_count: 45,
-    cover_image_url: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=100&h=100&fit=crop',
-    containsSong: false,
-  },
-  {
-    id: '5',
-    name: 'Late Night Study',
-    song_count: 28,
-    cover_image_url: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=100&h=100&fit=crop',
-    containsSong: false,
-  },
-  {
-    id: '6',
-    name: 'Party Hits',
-    song_count: 50,
-    cover_image_url: 'https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=100&h=100&fit=crop',
-    containsSong: true,
-  },
-]
-
 export function AddToPlaylistModal({ 
   open, 
   onOpenChange, 
@@ -86,9 +34,21 @@ export function AddToPlaylistModal({
   onCreateNew 
 }: AddToPlaylistModalProps) {
   const [searchQuery, setSearchQuery] = React.useState("")
-  const [selectedPlaylists, setSelectedPlaylists] = React.useState<Set<string>>(
-    new Set(mockPlaylists.filter(p => p.containsSong).map(p => p.id))
-  )
+  
+  // Initialize selected playlists based on whether they already contain the song
+  const [selectedPlaylists, setSelectedPlaylists] = React.useState<Set<string>>(new Set())
+
+  // Reset selection when modal opens or song changes
+  React.useEffect(() => {
+    if (open) {
+      const initialSelection = new Set(
+        mockPlaylists
+          .filter(p => p.songs.some(s => s.id === songId))
+          .map(p => p.id)
+      )
+      setSelectedPlaylists(initialSelection)
+    }
+  }, [open, songId])
 
   // Filter playlists based on search query
   const filteredPlaylists = React.useMemo(() => {
@@ -111,9 +71,39 @@ export function AddToPlaylistModal({
   }
 
   const handleDone = () => {
-    // Handle adding/removing song from playlists
-    console.log("Updating playlists for song:", songId)
-    console.log("Selected playlists:", Array.from(selectedPlaylists))
+    const songToAdd = mockSongs.find(s => s.id === songId)
+    
+    if (!songToAdd) {
+      toast.error("Song not found")
+      return
+    }
+
+    let addedCount = 0
+    let removedCount = 0
+
+    mockPlaylists.forEach(playlist => {
+      const isSelected = selectedPlaylists.has(playlist.id)
+      const hasSong = playlist.songs.some(s => s.id === songId)
+
+      if (isSelected && !hasSong) {
+        // Add song
+        playlist.songs.push(songToAdd)
+        addedCount++
+      } else if (!isSelected && hasSong) {
+        // Remove song
+        playlist.songs = playlist.songs.filter(s => s.id !== songId)
+        removedCount++
+      }
+    })
+
+    if (addedCount > 0 || removedCount > 0) {
+      toast.success(
+        addedCount > 0 
+          ? `Added to ${addedCount} playlist${addedCount > 1 ? 's' : ''}`
+          : `Removed from ${removedCount} playlist${removedCount > 1 ? 's' : ''}`
+      )
+    }
+
     onOpenChange(false)
   }
 
@@ -164,7 +154,7 @@ export function AddToPlaylistModal({
               ) : (
                 filteredPlaylists.map((playlist) => {
                   const isSelected = selectedPlaylists.has(playlist.id)
-                  const wasOriginallySelected = playlist.containsSong
+                  const songCount = playlist.songs.length
 
                   return (
                     <div
@@ -182,15 +172,13 @@ export function AddToPlaylistModal({
                       />
                       
                       {/* Playlist Cover */}
-                      {playlist.cover_image_url && (
-                        <div className="w-12 h-12 rounded-md overflow-hidden bg-muted flex-shrink-0">
-                          <img
-                            src={playlist.cover_image_url}
-                            alt={playlist.name}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      )}
+                      <div className="w-12 h-12 rounded-md overflow-hidden bg-muted flex-shrink-0">
+                        <img
+                          src={playlist.cover_image_url}
+                          alt={playlist.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
 
                       {/* Playlist Info */}
                       <div className="flex-1 min-w-0">
@@ -198,12 +186,9 @@ export function AddToPlaylistModal({
                           <p className="font-medium text-sm truncate">
                             {playlist.name}
                           </p>
-                          {wasOriginallySelected && (
-                            <Check className="h-4 w-4 text-primary flex-shrink-0" />
-                          )}
                         </div>
                         <p className="text-xs text-muted-foreground">
-                          {playlist.song_count} songs
+                          {songCount} songs
                         </p>
                       </div>
                     </div>

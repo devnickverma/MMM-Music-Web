@@ -9,18 +9,8 @@ import { SongRow } from '@/components/song/SongRow'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { PlaylistCardSkeleton } from '@/components/ui/PlaylistCardSkeleton'
 import { Plus, ListMusic, Heart, Clock, Music, MoreVertical, Pencil } from 'lucide-react'
-import { mockSongs } from '@/lib/mock-data'
+import { mockSongs, mockPlaylists } from '@/lib/mock-data'
 import { CreatePlaylistModal, EditPlaylistModal } from '@/components/modals'
-
-// Mock playlists - set to empty array to demonstrate empty state
-const playlists = [
-  { id: '1', name: 'Workout Mix', songCount: 32, coverUrl: mockSongs[0].cover_image_url },
-  { id: '2', name: 'Chill Vibes', songCount: 45, coverUrl: mockSongs[1].cover_image_url },
-  { id: '3', name: 'Road Trip', songCount: 28, coverUrl: mockSongs[2].cover_image_url },
-  { id: '4', name: 'Focus Flow', songCount: 67, coverUrl: mockSongs[3].cover_image_url },
-]
-
-// Toggle to show empty state: const playlists = []
 
 export default function LibraryPage() {
   const [isLoading, setIsLoading] = useState(true)
@@ -35,13 +25,7 @@ export default function LibraryPage() {
   }, [])
 
   const handleEditPlaylist = (playlist: any) => {
-    setSelectedPlaylist({
-      id: playlist.id,
-      name: playlist.name,
-      description: `A collection of ${playlist.songCount} amazing songs`,
-      cover_image_url: playlist.coverUrl,
-      is_public: true,
-    })
+    setSelectedPlaylist(playlist)
     setEditModalOpen(true)
   }
 
@@ -79,7 +63,7 @@ export default function LibraryPage() {
                 <PlaylistCardSkeleton key={i} />
               ))}
             </div>
-          ) : playlists.length === 0 ? (
+          ) : mockPlaylists.length === 0 ? (
             <EmptyState
               icon={Music}
               title="No playlists yet"
@@ -91,14 +75,14 @@ export default function LibraryPage() {
             />
           ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
-            {playlists.map((playlist) => (
+            {mockPlaylists.map((playlist) => (
               <Card
                 key={playlist.id}
                 className="group cursor-pointer hover:shadow-lg transition-all overflow-hidden"
               >
                 <div className="aspect-square relative bg-secondary overflow-hidden">
                   <img
-                    src={playlist.coverUrl}
+                    src={playlist.cover_image_url || mockSongs[0].cover_image_url}
                     alt={playlist.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform"
                   />
@@ -125,7 +109,7 @@ export default function LibraryPage() {
                     {playlist.name}
                   </h3>
                   <p className="text-xs text-muted-foreground">
-                    {playlist.songCount} songs
+                    {playlist.songs.length} songs
                   </p>
                 </div>
               </Card>

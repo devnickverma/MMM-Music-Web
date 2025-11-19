@@ -1,3 +1,6 @@
 export { CreatePlaylistModal } from './CreatePlaylistModal'
 export { EditPlaylistModal } from './EditPlaylistModal'
 export { AddToPlaylistModal } from './AddToPlaylistModal'
+export { ShareModal } from './ShareModal'
+export { DeleteModal } from './DeleteModal'
+export { ScheduleConcertModal } from './ScheduleConcertModal'

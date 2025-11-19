@@ -17,6 +17,9 @@ import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { mockPlaylists } from "@/lib/mock-data";
+import { CreatePlaylistModal } from "@/components/modals/CreatePlaylistModal";
+import { useState } from "react";
 
 // Main navigation links (always visible)
 const mainLinks = [
@@ -30,18 +33,12 @@ const mainLinks = [
 // Artist-only navigation links
 const artistLinks = [
   { icon: BarChart3, label: "Artist Dashboard", href: "/artist-dashboard" },
-];
-
-// Mock playlists
-const playlists = [
-  { id: "1", name: "Chill Vibes", songCount: 45 },
-  { id: "2", name: "Workout Mix", songCount: 32 },
-  { id: "3", name: "Road Trip", songCount: 28 },
-  { id: "4", name: "Focus Flow", songCount: 67 },
+  { icon: Settings, label: "Settings", href: "/settings" },
 ];
 
 export function Sidebar() {
   const pathname = usePathname();
+  const [createPlaylistOpen, setCreatePlaylistOpen] = useState(false);
 
   // TODO: Replace with actual user data from auth context/session
   const mockUser = {
@@ -49,7 +46,7 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="hidden md:flex flex-col w-64 border-r border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <aside className="hidden md:flex flex-col w-64 border-r border-border/40 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <ScrollArea className="flex-1 py-4">
         {/* Main Navigation */}
         <nav className="space-y-1 px-3">
@@ -113,18 +110,23 @@ export function Sidebar() {
             <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
               Playlists
             </h3>
-            <Button variant="ghost" size="icon" className="h-6 w-6">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="h-6 w-6"
+              onClick={() => setCreatePlaylistOpen(true)}
+            >
               <Plus className="h-4 w-4" />
             </Button>
           </div>
           <nav className="space-y-1">
-            {playlists.map((playlist) => (
+            {mockPlaylists.map((playlist) => (
               <Link key={playlist.id} href={`/playlist/${playlist.id}`}>
                 <Button
-                  variant="ghost"
+                  variant={pathname === `/playlist/${playlist.id}` ? "secondary" : "ghost"}
                   className="w-full justify-start gap-3 h-auto py-2 px-3"
                 >
-                  <div className="flex items-center justify-center w-8 h-8 rounded bg-primary/10 flex-shrink-0">
+                  <div className="flex items-center justify-center w-8 h-8 rounded bg-primary/10 shrink-0">
                     <ListMusic className="h-4 w-4 text-primary" />
                   </div>
                   <div className="flex flex-col items-start min-w-0 flex-1">
@@ -132,7 +134,7 @@ export function Sidebar() {
                       {playlist.name}
                     </span>
                     <span className="text-xs text-muted-foreground">
-                      {playlist.songCount} songs
+                      {playlist.songs.length} songs
                     </span>
                   </div>
                 </Button>
@@ -144,17 +146,20 @@ export function Sidebar() {
 
       {/* Bottom Section */}
       <div className="p-4 border-t border-border/40 space-y-2">
-        <Link href="/settings" className="block">
-          <Button className="w-full" variant="outline">
-            <Settings className="h-4 w-4 mr-2" />
-            Settings
-          </Button>
-        </Link>
-        <Button className="w-full" variant="default">
+        <Button 
+          className="w-full" 
+          variant="default"
+          onClick={() => setCreatePlaylistOpen(true)}
+        >
           <Plus className="h-4 w-4 mr-2" />
           Create Playlist
         </Button>
       </div>
+
+      <CreatePlaylistModal 
+        open={createPlaylistOpen} 
+        onOpenChange={setCreatePlaylistOpen} 
+      />
     </aside>
   );
 }

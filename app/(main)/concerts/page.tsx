@@ -8,11 +8,14 @@ import { Card } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
-import { Calendar, Clock, Users, Bell, Play } from 'lucide-react'
+import { Calendar, Clock, Users, Bell, Play, Plus } from 'lucide-react'
 import { upcomingConcerts, pastConcerts, type Concert } from '@/lib/mock-data'
+import { ScheduleConcertModal } from '@/components/modals/ScheduleConcertModal'
 import toast from 'react-hot-toast'
 
 export default function ConcertsPage() {
+  const [scheduleOpen, setScheduleOpen] = useState(false)
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     return date.toLocaleDateString('en-US', { 
@@ -119,11 +122,17 @@ export default function ConcertsPage() {
   return (
     <div className="p-6 space-y-6">
       {/* Page Header */}
-      <div>
-        <h1 className="text-3xl font-bold">Virtual Concerts</h1>
-        <p className="text-muted-foreground mt-1">
-          Experience live music from anywhere in the world
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold">Virtual Concerts</h1>
+          <p className="text-muted-foreground mt-1">
+            Experience live music from anywhere in the world
+          </p>
+        </div>
+        <Button onClick={() => setScheduleOpen(true)}>
+          <Plus className="h-4 w-4 mr-2" />
+          Schedule Concert
+        </Button>
       </div>
 
       {/* Tabs */}
@@ -177,6 +186,11 @@ export default function ConcertsPage() {
           )}
         </TabsContent>
       </Tabs>
+
+      <ScheduleConcertModal 
+        open={scheduleOpen} 
+        onOpenChange={setScheduleOpen} 
+      />
     </div>
   )
 }

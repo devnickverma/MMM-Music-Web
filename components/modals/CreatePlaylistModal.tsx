@@ -15,6 +15,9 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Switch } from "@/components/ui/switch"
 import { cn } from "@/lib/utils"
+import { mockPlaylists } from "@/lib/mock-data"
+import type { Playlist } from "@/lib/mock-data"
+import toast from "react-hot-toast"
 
 interface CreatePlaylistModalProps {
   open: boolean
@@ -56,9 +59,28 @@ export function CreatePlaylistModal({ open, onOpenChange }: CreatePlaylistModalP
   }
 
   const handleCreate = () => {
-    // Handle playlist creation
-    console.log("Creating playlist:", { playlistName, description, isPublic, coverImage })
+    if (!playlistName.trim()) return
+
+    const newPlaylist: Playlist = {
+      id: Math.random().toString(36).substr(2, 9),
+      name: playlistName,
+      description: description,
+      cover_image_url: coverImage 
+        ? URL.createObjectURL(coverImage) 
+        : "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&h=400&fit=crop", // Default image
+      user_id: "1", // Current user
+      is_public: isPublic,
+      songs: [],
+      created_at: new Date().toISOString()
+    }
+
+    mockPlaylists.push(newPlaylist)
+    
+    toast.success("Playlist created successfully!")
+    console.log("Created playlist:", newPlaylist)
+    
     onOpenChange(false)
+    
     // Reset form
     setPlaylistName("")
     setDescription("")

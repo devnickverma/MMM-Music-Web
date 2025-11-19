@@ -12,7 +12,10 @@ import Image from 'next/image'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 
-export default function SongDetailPage({ params }: { params: { id: string } }) {
+import { useParams } from 'next/navigation'
+
+export default function SongDetailPage() {
+  const params = useParams()
   const { playSong } = usePlayerStore()
   const [comment, setComment] = useState('')
   
